@@ -26,7 +26,13 @@ docker inspect --format '{{ .NetworkSettings.IPAddress }}' <database_container_i
 The `inspect` command will return a string with an IP address of the database container. We need to now take that IP address and add it to our app's `Dockerfile`. We need to change the `DB_HOST` IP address to the one that the above command has provided.
 
 ```bash
+FROM node:latest
+WORKDIR /usr/src/app
+COPY . .
+RUN npm install
+EXPOSE 3000
 ENV DB_HOST=<your_ip>:27017
+CMD ["node", "app.js"]
 ```
 
 After we have added our Database's IP address we can now create the image and run it.
